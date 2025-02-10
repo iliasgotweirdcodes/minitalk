@@ -1,33 +1,45 @@
-NAMEC = client
-NAMES = server
+NAMECLIENT = client
+NAMESERVER = server
+NAMECLIENT_BONUS = client_bonus
+NAMESERVER_BONUS = server_bonus
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
-INCLUDE = -I minitalk.h
 RM = rm -rf
 
 SRCC = client.c ft_atoi.c ft_putnbr.c ft_putchar.c
 SRCS = server.c ft_atoi.c ft_putnbr.c ft_putchar.c
+SRCC_BONUS = client_bonus.c ft_atoi.c ft_putnbr.c ft_putchar.c 
+SRCS_BONUS = server_bonus.c ft_atoi.c ft_putnbr.c ft_putchar.c ft_bzero.c helper_bonus.c
 
 OBJC = $(SRCC:.c=.o)
 OBJS = $(SRCS:.c=.o)
+OBJC_BONUS = $(SRCC_BONUS:.c=.o)
+OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
-all: $(NAMEC) $(NAMES)
+all: $(NAMECLIENT) $(NAMESERVER)
 
+$(NAMECLIENT): $(OBJC)
+	$(CC) $(CFLAGS) $(OBJC) -o $(NAMECLIENT)
 
-$(NAMEC): $(OBJC) minitalk.h
-	$(CC) $(CFLAGS) $(OBJC)  -o $(NAMEC)
+$(NAMESERVER): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAMESERVER)
 
-$(NAMES): $(OBJS) minitalk.h
-	$(CC) $(CFLAGS) $(OBJS)  -o $(NAMES)
+bonus: $(NAMECLIENT_BONUS) $(NAMESERVER_BONUS)
 
-%.o: %.c minitalk.h
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+$(NAMECLIENT_BONUS): $(OBJC_BONUS)
+	$(CC) $(CFLAGS) $(OBJC_BONUS) -o $(NAMECLIENT_BONUS)
+
+$(NAMESERVER_BONUS): $(OBJS_BONUS)
+	$(CC) $(CFLAGS) $(OBJS_BONUS) -o $(NAMESERVER_BONUS)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJC) $(OBJS)
+	$(RM) $(OBJC) $(OBJS) $(OBJC_BONUS) $(OBJS_BONUS)
 
 fclean: clean
-	$(RM) $(NAMEC) $(NAMES)
+	$(RM) $(NAMECLIENT) $(NAMESERVER) $(NAMECLIENT_BONUS) $(NAMESERVER_BONUS)
 
 re: fclean all

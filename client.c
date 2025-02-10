@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilel-hla <ilel-hla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 15:07:53 by ilel-hla          #+#    #+#             */
-/*   Updated: 2025/02/03 22:55:12 by ilel-hla         ###   ########.fr       */
+/*   Created: 2025/02/08 19:28:57 by ilel-hla          #+#    #+#             */
+/*   Updated: 2025/02/10 15:21:33 by ilel-hla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,19 @@
 
 void	send_byte(int pid, char c)
 {
-	int	i;
+	int	bit;
 
-	i = 128;
-	while (i > 0)
+	bit = 0;
+	while (bit < 8)
 	{
-		if (c >= i)
-		{
+		if (c & (1 << bit))
 			kill(pid, SIGUSR2);
-			c -= i;
-		}
 		else
 			kill(pid, SIGUSR1);
-		i /= 2;
 		usleep(100);
 		usleep(100);
+		bit++;
 	}
-}
-void	sent(void)
-{
-	write(1, "\033[0;32m ✔ Signal is sent successfully ✔ \033[0m\n", 50);
-	return ;
-}
-
-	void error(void)
-{
-	write(2, "\033[0;31m ❌ Error Invalid parameters or invalid PID ❌ \033[0m\n", 62);
-	return;
 }
 
 int	main(int ac, char **av)
@@ -48,19 +34,26 @@ int	main(int ac, char **av)
 	int	pid;
 	int	i;
 
-	i = 0;
-	if (3 == ac && ft_atoi(av[1]) != -1
-		&& ft_atoi(av[1]) >= 0 && (kill(ft_atoi(av[1]), 0) == 0))
+	if (ac != 3 || av[1][0] == '\0' || av[2][0] == '\0')
 	{
-		pid = ft_atoi(av[1]);
-		while (av[2][i] != '\0')
+		write(2, "\033[0;31m ❌ Usage: ./client PID message ❌ \033[0m\n", 50);
+		exit (1);
+	}
+	pid = ft_atoi(av[1]);
+	if (pid != -1 && pid > 0 && kill(pid, 0) == 0)
+	{
+		i = 0;
+		while (av[2][i])
 		{
 			send_byte(pid, av[2][i]);
 			i++;
 		}
-		sent();
+		send_byte(pid, '\0');
 	}
 	else
-		error();
+	{
+		write(2, "\033[0;31m ❌ Invalid PID ❌ \033[0m\n", 34);
+		exit (1);
+	}
 	return (0);
 }
