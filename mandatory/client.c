@@ -6,11 +6,11 @@
 /*   By: ilel-hla <ilel-hla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 19:28:57 by ilel-hla          #+#    #+#             */
-/*   Updated: 2025/02/10 15:21:33 by ilel-hla         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:29:35 by ilel-hla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "../minitalk.h"
 
 void	send_byte(int pid, char c)
 {
@@ -23,8 +23,8 @@ void	send_byte(int pid, char c)
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
-		usleep(100);
-		usleep(100);
+		usleep(200);
+		usleep(200);
 		bit++;
 	}
 }

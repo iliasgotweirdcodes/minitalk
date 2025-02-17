@@ -6,13 +6,13 @@
 /*   By: ilel-hla <ilel-hla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 21:09:25 by ilel-hla          #+#    #+#             */
-/*   Updated: 2025/02/10 15:29:18 by ilel-hla         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:31:29 by ilel-hla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk_bonus.h"
+#include "../minitalk_bonus.h"
 
-int	check_unicode(unsigned char c)
+int	whatsthesize(unsigned char c)
 {
 	if (c < 0b10000000)
 		return (1);
@@ -42,7 +42,7 @@ void	notify_message_completion(t_client *client)
 void	handle_unicode(t_client *client)
 {
 	if (client->unicode_index == 0)
-		client->unicode_size = check_unicode(client->current_char);
+		client->unicode_size = whatsthesize(client->current_char);
 	client->unicode_buffer[client->unicode_index++] = client->current_char;
 	if (client->unicode_size == client->unicode_index)
 	{
@@ -82,7 +82,7 @@ int	main(int ac, char **av)
 	(void)av;
 	if (ac != 1)
 	{
-		write(2, "\033[0;31m ❌ Usage: ./server ❌ \033[0m\n", 37);
+		write(2, "\033[0;31m ❌ Usage: ./server ❌ \033[0m\n", 38);
 		exit(1);
 	}
 	write(1, "\033[0;33m SERVER PID : \033[0m", 26);
@@ -90,7 +90,6 @@ int	main(int ac, char **av)
 	write(1, "\n", 1);
 	sa.sa_sigaction = signal_handler;
 	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	while (1)

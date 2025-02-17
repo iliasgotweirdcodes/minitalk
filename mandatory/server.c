@@ -6,11 +6,11 @@
 /*   By: ilel-hla <ilel-hla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 19:28:59 by ilel-hla          #+#    #+#             */
-/*   Updated: 2025/02/10 15:28:48 by ilel-hla         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:30:03 by ilel-hla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "../minitalk.h"
 
 void	signal_handler(int signal, siginfo_t *info, void *context)
 {

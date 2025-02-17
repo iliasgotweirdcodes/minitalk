@@ -6,11 +6,11 @@
 /*   By: ilel-hla <ilel-hla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 18:14:18 by ilel-hla          #+#    #+#             */
-/*   Updated: 2025/02/10 15:24:29 by ilel-hla         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:31:23 by ilel-hla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk_bonus.h"
+#include "../minitalk_bonus.h"
 
 void	set_client(t_client *client)
 {

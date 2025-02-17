@@ -6,11 +6,11 @@
 /*   By: ilel-hla <ilel-hla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 21:06:40 by ilel-hla          #+#    #+#             */
-/*   Updated: 2025/02/10 15:23:22 by ilel-hla         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:31:02 by ilel-hla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk_bonus.h"
+#include "../minitalk_bonus.h"
 
 int	g_server_pid;
 
@@ -25,9 +25,8 @@ void	send_byte(int pid, char c)
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
-		usleep(100);
-		usleep(100);
-		usleep(100);
+		usleep(200);
+		usleep(200);
 		bit++;
 	}
 }
@@ -45,7 +44,7 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 	}
 }
 
-void	get_pid(char **av)
+void	send_to_pid(char **av)
 {
 	int	i;
 
@@ -72,7 +71,7 @@ int	main(int ac, char **av)
 		write(2, "\033[0;31m ❌ Usage: ./client PID message ❌ \033[0m\n", 50);
 		exit (1);
 	}
-	get_pid(av);
+	send_to_pid(av);
 	if (g_server_pid == -1 || g_server_pid <= 0 || kill(g_server_pid, 0) != 0)
 	{
 		write(2, "\033[0;31m ❌ Invalid PID ❌ \033[0m\n", 34);
@@ -80,7 +79,6 @@ int	main(int ac, char **av)
 	}
 	sa.sa_sigaction = signal_handler;
 	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
 	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
 		pause();
